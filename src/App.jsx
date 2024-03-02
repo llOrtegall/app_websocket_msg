@@ -1,67 +1,44 @@
-import { useState } from "react"
+import DataTable from 'react-data-table-component'
+export function App() {
 
-const TURNS = {
-  X: 'x',
-  O: 'o'
-}
+  const columns = [
+    {
+      name: "Nombre",
+      selector: row => row.Nombre
+    },
+    {
+      name: "Apellido",
+      selector: row => row.Apellido
+    },
+    {
+      name: "Edad",
+      selector: row => row.Edad
+    }
+  ]
 
-const Square = ({ children, isSelected, updateBoard, index }) => {
-  const className = `square ${isSelected ? 'is-selected' : ''}`
-
-  const handleClick = () => {
-    updateBoard(index)
-  }
+  const data = [
+    {
+      Nombre: "Juan",
+      Apellido: "Perez",
+      Edad: 30
+    },
+    {
+      Nombre: "Maria",
+      Apellido: "Gomez",
+      Edad: 25
+    },
+    {
+      Nombre: "Carlos",
+      Apellido: "Lopez",
+      Edad: 40
+    }
+  ]
 
   return (
-    <div onClick={handleClick} className={className}>
-      {children}
+    <div>
+      <DataTable columns={columns} data={data} />
     </div>
   )
 }
 
-function App() {
-  const [board, SetBoard] = useState(
-    Array(9).fill(null)
-  )
-
-  const [turn, setTurn] = useState(TURNS.X)
-
-  const updateBoard = (index) => {
-    const newBoard = [...board]
-    newBoard[index] = turn
-    SetBoard(newBoard)
-
-    const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X
-    setTurn(newTurn)
-  }
-  return (
-    <main className="board">
-      <h1 style={{ marginBottom: '20px' }}>Tic Tac Toe</h1>
-      <section className="game">
-        {
-          board.map((_, index) => {
-            return (
-              <Square
-                key={index}
-                index={index}
-                updateBoard={updateBoard}
-              >
-                {board[index]}
-              </Square>
-            )
-          })
-        }
-      </section>
-
-      <section className="turn">
-        <Square isSelected={turn === TURNS.X}>
-          {TURNS.X}
-        </Square>
-        <Square isSelected={turn === TURNS.O}>
-          {TURNS.O}
-        </Square>
-      </section>
-    </main>
-  )
-}
 export default App
