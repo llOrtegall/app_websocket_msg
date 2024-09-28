@@ -1,11 +1,14 @@
 import { createBrowserRouter } from 'react-router-dom';
-import Root from './root';
+import Login from '../pages/login';
 import Home from '../pages/home';
+import Root from './root';
+
+const isAuth = false;
 
 export const routes = createBrowserRouter([
   {
     path: '/',
-    element: <Root />,
+    element: isAuth ? <Root /> : <Login />,
     children: [
       {
         index: true,
