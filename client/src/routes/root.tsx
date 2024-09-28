@@ -1,17 +1,15 @@
+import { NavBar } from '../components/NavBar';
 import { Outlet } from 'react-router-dom';
 
 export default function Root() {
   return (
-    <>
-      <nav>
-        <ul>
-          <li><a href='/'>Home</a></li>
-          <li><a href='/about'>About</a></li>
-        </ul>
+    <section className='flex'>
+      <nav className='p-2'>
+        <NavBar />
       </nav>
       <main>
         <Outlet />
       </main>
-    </>
+    </section>
   );
 }
