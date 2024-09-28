@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom';
 export default function Root() {
   return (
     <section className='flex'>
-      <nav className='p-2'>
+      <nav className='h-screen p-2 bg-gray-800 text-white'>
         <NavBar />
       </nav>
       <main>
