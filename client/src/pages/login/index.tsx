@@ -1,7 +1,7 @@
-import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../auth'
 import { useState } from 'react'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 export default function Login() {
   const [email, setEmail] = useState('')

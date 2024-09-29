@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 
-export const NavBar = () => {
+const NavBar = () => {
   return (
     <>
       <ul className='flex h-full flex-col justify-between'>
@@ -37,3 +37,5 @@ export const NavBar = () => {
     </>
   )
 }
+
+export default NavBar
