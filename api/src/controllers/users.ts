@@ -1,4 +1,4 @@
-import { User } from '../model/User.model';
+import { UserModel } from '../model/User.model';
 import { Request, Response } from 'express';
 
 export const createUser = async (req: Request, res: Response) => {
@@ -6,7 +6,7 @@ export const createUser = async (req: Request, res: Response) => {
   const { email, names, lastnames, password } = req.body;
 
   try {
-    const user = await User.create({ email, names, lastnames, password });
+    const user = await UserModel.create({ email, names, lastnames, password });
     return res.status(201).json(user);
   } catch (error) {
     console.log(error);

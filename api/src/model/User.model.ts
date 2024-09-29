@@ -1,18 +1,27 @@
-import { Model, InferAttributes, InferCreationAttributes, DataTypes, CreationOptional  } from 'sequelize';
+import { Model, DataTypes, Optional  } from 'sequelize';
+import { User } from '../schemas/User.schema'
 import { connection } from '../connection'
 
-class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
-  declare id: CreationOptional<string>;
+interface UserAttributes extends User {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+type UserCreationAttributes = Optional<UserAttributes, 'id' | 'createdAt' | 'updatedAt'>;
+
+class UserModel extends Model<UserAttributes, UserCreationAttributes> {
+  declare id: string;
   declare names: string;
   declare lastnames: string;
   declare email: string;
   declare password: string;
 
-  declare readonly createdAt: CreationOptional<Date>;
-  declare readonly updatedAt: CreationOptional<Date>;
+  declare readonly createdAt: Date;
+  declare readonly updatedAt: Date;
 }
 
-User.init({
+UserModel.init({
   id: { type: DataTypes.UUIDV4, primaryKey: true },
   names: { type: DataTypes.STRING(40), allowNull: false },
   lastnames: { type: DataTypes.STRING(40), allowNull: false,  },
@@ -26,4 +35,4 @@ User.init({
   underscored: true
 })
 
-export { User }
+export { UserModel }
