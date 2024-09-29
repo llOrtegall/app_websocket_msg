@@ -12,7 +12,7 @@ const connection = new Sequelize(NAME, USER, PASS, {
   port: parseInt(PORT),
   dialect: 'mysql',
   timezone: '-05:00',
-  logging: ENV === 'dev' ? true : false
+  logging: ENV === 'dev' ? console.log : false
 })
 
 export { connection }
