@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  db_chat:
+    image: mysql:8.2.0
+    container_name: db_chat
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: chat
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db_chat:/var/lib/mysql
