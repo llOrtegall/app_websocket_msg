@@ -1,6 +1,6 @@
 import { RouterProvider } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
-import { StrictMode } from 'react';
+// import { StrictMode } from 'react';
 
 import { routes } from './routes';
 
@@ -14,9 +14,9 @@ axios.defaults.withCredentials = true;
 
 const root = createRoot(document.getElementById('root')!);
 root.render(
-  <StrictMode>
+  // <StrictMode>
     <AuthProvider>
       <RouterProvider router={routes} />
     </AuthProvider>
-  </StrictMode>
+  // </StrictMode>
 );
