@@ -30,7 +30,7 @@ export default function Root() {
           <nav className='p-2 h-full text-white'>
             <NavBar />
           </nav>
-          <main className='bg-slate-700 w-full p-2 rounded-md'>
+          <main className='flex bg-slate-700 w-full h-full p-2 rounded-md'>
             <Outlet />
           </main>
         </section>
