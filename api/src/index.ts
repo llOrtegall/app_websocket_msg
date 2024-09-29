@@ -36,9 +36,11 @@ wss.on('connection', (socket: ExtendedWebSocket, req) => {
     if (token) {
       verify(token, JWT_SECRET, {}, async (err: any, decoded: any) => {
         if (err) throw err;
-        const { id, email } = decoded;
+        const { id, email, names, lastnames } = decoded;
         socket.id = id;
         socket.email = email;
+        socket.names = names;
+        socket.lastnames = lastnames;
       });
     }
   }
@@ -46,7 +48,7 @@ wss.on('connection', (socket: ExtendedWebSocket, req) => {
 
   [...wss.clients].forEach((client: ExtendedWebSocket) => {
     client.send(JSON.stringify({
-      online: [...wss.clients].map((client: ExtendedWebSocket) => ({ id: client.id, email: client.email }))
+      online: [...wss.clients].map((client: ExtendedWebSocket) => ({ id: client.id, email: client.email, names: client.names, lastnames: client.lastnames }))
     }));
   });
   
