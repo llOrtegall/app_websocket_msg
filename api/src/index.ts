@@ -5,7 +5,8 @@ import express from 'express';
 import cors from 'cors';
 
 import userRoutes from './routes/users';
-import { ExtendedWebSocket } from './types/types';
+import { ExtendedWebSocket, MessageDataInt } from './types/types';
+import { MessageModel } from './model/Message.model';
 
 const app = express();
 
@@ -44,6 +45,24 @@ wss.on('connection', (socket: ExtendedWebSocket, req) => {
       });
     }
   }
+
+  socket.on('message', async (message: string) => {
+    const messageData: MessageDataInt = JSON.parse(message)
+    const { recipient, text } = messageData;
+
+    if (recipient && text) {
+      //const newMessageDoc = await MessageModel.create({ sender: socket.userId, recipient, text });
+      await MessageModel.sync();
+      const newMessage = await MessageModel.create({ sender: socket.id!, recipient, text });
+      [...wss.clients]
+        .filter((client: ExtendedWebSocket) => client.id === recipient)
+        .forEach((client: ExtendedWebSocket) => {
+          client.send(JSON.stringify({
+            messages: { text, sender: socket.id, recipient, _id: newMessage.id }
+          }));
+        })
+    }
+  });
 
 
   [...wss.clients].forEach((client: ExtendedWebSocket) => {

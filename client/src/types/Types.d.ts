@@ -5,6 +5,13 @@ export interface OnlineUser {
   lastnames: string;
 }
 
+export interface Messages {
+  text: string;
+  sender: string;
+  recipient: string;
+  id: string;
+}
+
 export interface MessageData {
   online: OnlineUser[];
   messages: Messages;

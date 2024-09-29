@@ -6,3 +6,8 @@ export interface ExtendedWebSocket extends WebSocket {
   names?: string;
   lastnames?: string;
 }
+
+export interface MessageDataInt {
+  recipient: string;
+  text: string;
+}
