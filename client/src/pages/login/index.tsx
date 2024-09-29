@@ -1,17 +1,24 @@
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../auth'
 import { useState } from 'react'
 import axios from 'axios'
 
 export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const { setUser, setIsAuthenticated } = useAuth()
+  const navigate = useNavigate()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     try {
       const response = await axios.post('/login', { email, password })
-      console.log(response.data)
+      setUser(response.data)
+      setIsAuthenticated(true)
+      navigate('/')
     } catch (error) {
+      // !! rendirizar un mensaje de error como contraseña incorrecta o usuario no encontrado etc etc etc
       console.error(error)
     }
   }

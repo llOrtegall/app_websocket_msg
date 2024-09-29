@@ -2,7 +2,7 @@ import { NavBar } from '../components/NavBar';
 import { Outlet } from 'react-router-dom';
 
 export default function Root() {
-    
+
   return (
     <section className='flex flex-col h-screen bg-slate-800'>
       <h1 className='flex p-1 mx-2 gap-2 text-white'>
