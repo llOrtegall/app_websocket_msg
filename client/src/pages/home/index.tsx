@@ -6,10 +6,12 @@ export default function Home() {
   useEffect(() => {
     const ws = new WebSocket(`${WS_URL}`)
 
-    ws.onopen = () => {
-      console.log('Connected to WS server')
-    }
+    ws.addEventListener('open', handleMessages)
   }, [])
+
+  const handleMessages = () => {
+    console.log('Connected to the server')
+  }
 
   return(
     <>
