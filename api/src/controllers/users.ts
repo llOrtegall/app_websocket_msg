@@ -45,12 +45,12 @@ export const getUserByEmail = async (req: Request, res: Response) => {
       return;
     }
     
-    const { password: pass, ...userWithoutPass } = user.dataValues;
+    const { id, names, lastnames } = user.dataValues;
 
-    sign({ user: userWithoutPass }, JWT_SECRET, { expiresIn: '1h'}, (err: any, token?: string) => {
+    sign({ id, names, lastnames, email }, JWT_SECRET, { expiresIn: '1h'}, (err: any, token?: string) => {
       if (err) throw err;
       if (token) {
-        res.cookie('token', token, { sameSite: 'none', secure: false }).status(201).json({ user: userWithoutPass });
+        res.cookie('token', token, { sameSite: 'lax', secure: true }).status(201).json({ id, names, lastnames, email });
       } else {
         res.status(500).json('Token generation failed');
       }

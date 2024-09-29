@@ -1,4 +1,3 @@
-import { API_URL } from '../../utils/constanst'
 import { useState } from 'react'
 import axios from 'axios'
 
@@ -10,7 +9,7 @@ export default function Login() {
     e.preventDefault()
 
     try {
-      const response = await axios.post(`${API_URL}/login`, { email, password })
+      const response = await axios.post('/login', { email, password })
       console.log(response.data)
     } catch (error) {
       console.error(error)

@@ -5,6 +5,11 @@ import { StrictMode } from 'react';
 import { routes } from './routes';
 
 import './index.css';
+import axios from 'axios';
+import { API_URL } from './utils/constanst';
+
+axios.defaults.baseURL = `${API_URL}/api/v1`;
+axios.defaults.withCredentials = true;
 
 const root = createRoot(document.getElementById('root')!);
 root.render(
