@@ -1,7 +1,9 @@
 import { validateUseer } from '../schemas/User.schema';
-import { UserModel } from '../model/User.model';
-import { Request, Response } from 'express';
 import { hashSync, compareSync } from 'bcryptjs';
+import { UserModel } from '../model/User.model';
+import { JWT_SECRET, SALT } from '../config';
+import { Request, Response } from 'express';
+import { sign } from 'jsonwebtoken';
 
 export const createUser = async (req: Request, res: Response) => {
   try {
@@ -12,7 +14,7 @@ export const createUser = async (req: Request, res: Response) => {
       return;
     }
 
-    const passHash = hashSync(result.password, 10);
+    const passHash = hashSync(result.password, SALT);
     await UserModel.sync();
     await UserModel.create({ email: result.email, password: passHash, names: result.names, lastnames: result.lastnames });
     res.status(201).json('Usuario creado correctamente');
@@ -45,7 +47,15 @@ export const getUserByEmail = async (req: Request, res: Response) => {
     
     const { password: pass, ...userWithoutPass } = user.dataValues;
 
-    res.status(200).json(userWithoutPass);
+    sign({ user: userWithoutPass }, JWT_SECRET, { expiresIn: '1h'}, (err: any, token?: string) => {
+      if (err) throw err;
+      if (token) {
+        res.cookie('token', token, { sameSite: 'none', secure: false }).status(201).json({ user: userWithoutPass });
+      } else {
+        res.status(500).json('Token generation failed');
+      }
+    });
+
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: 'Error obteniendo usuario' });
