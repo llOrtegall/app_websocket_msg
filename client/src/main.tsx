@@ -7,6 +7,7 @@ import { routes } from './routes';
 import './index.css';
 import axios from 'axios';
 import { API_URL } from './utils/constanst';
+import { AuthProvider } from './auth';
 
 axios.defaults.baseURL = `${API_URL}/api/v1`;
 axios.defaults.withCredentials = true;
@@ -14,6 +15,8 @@ axios.defaults.withCredentials = true;
 const root = createRoot(document.getElementById('root')!);
 root.render(
   <StrictMode>
-    <RouterProvider router={routes} />
+    <AuthProvider>
+      <RouterProvider router={routes} />
+    </AuthProvider>
   </StrictMode>
 );

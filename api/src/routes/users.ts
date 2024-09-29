@@ -1,4 +1,4 @@
-import { createUser, getUserByEmail } from '../controllers/users';
+import { createUser, getUserByEmail, validateToken } from '../controllers/users';
 import { Router } from 'express';
 
 const userRoutes = Router();
@@ -6,5 +6,7 @@ const userRoutes = Router();
 userRoutes.post('/user', createUser);
 
 userRoutes.post('/login', getUserByEmail)
+
+userRoutes.get('/profile', validateToken)
 
 export default userRoutes;

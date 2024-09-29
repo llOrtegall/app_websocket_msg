@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
-import { APP_NAME } from '../utils/constanst'
 import { User } from '../types/User'
+import axios from 'axios'
 
 interface IAuthContext {
   isAuthenticated: boolean
@@ -19,11 +19,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
   useEffect(() => {
     const cookie = document.cookie
 
-    if (!cookie && cookie.split('=')[0] !== APP_NAME) {
-      setIsAuthenticated(false)
-      setUser(null)
-      return
+    if (cookie.includes('token')) {
+      axios.get('/profile') 
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
     }
+    
   }, [isAuthenticated])
 
   return (

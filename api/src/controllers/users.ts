@@ -3,7 +3,7 @@ import { hashSync, compareSync } from 'bcryptjs';
 import { UserModel } from '../model/User.model';
 import { JWT_SECRET, SALT } from '../config';
 import { Request, Response } from 'express';
-import { sign } from 'jsonwebtoken';
+import { sign, verify } from 'jsonwebtoken';
 
 export const createUser = async (req: Request, res: Response) => {
   try {
@@ -51,8 +51,10 @@ export const getUserByEmail = async (req: Request, res: Response) => {
       if (err) throw err;
       if (token) {
         res.cookie('token', token, { sameSite: 'lax', secure: true }).status(201).json({ id, names, lastnames, email });
+        return;
       } else {
         res.status(500).json('Token generation failed');
+        return;
       }
     });
 
@@ -60,4 +62,22 @@ export const getUserByEmail = async (req: Request, res: Response) => {
     console.log(error);
     res.status(400).json({ message: 'Error obteniendo usuario' });
   }
+}
+
+export const validateToken = async (req: Request, res: Response) => {
+  console.log(req.headers);
+  
+
+  // if (!token) {
+  //   res.status(401).json({ message: 'No token provided' });
+  //   return;
+  // }
+
+  // try {
+  //   const payload = verify(token, JWT_SECRET);
+  //   res.status(200).json(payload);
+  // } catch (error) {
+  //   console.log(error);
+  //   res.status(401).json({ message: 'Invalid token' });
+  // }
 }
