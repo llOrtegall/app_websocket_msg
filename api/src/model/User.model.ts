@@ -22,7 +22,7 @@ class UserModel extends Model<UserAttributes, UserCreationAttributes> {
 }
 
 UserModel.init({
-  id: { type: DataTypes.UUIDV4, primaryKey: true },
+  id: { type: DataTypes.STRING, primaryKey: true, defaultValue: DataTypes.UUIDV4},
   names: { type: DataTypes.STRING(40), allowNull: false },
   lastnames: { type: DataTypes.STRING(40), allowNull: false,  },
   email: { type: DataTypes.STRING(150), allowNull: false, unique: true },

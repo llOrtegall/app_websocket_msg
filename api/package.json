@@ -12,6 +12,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cors": "2.8.5",
     "express": "4.21.0",
     "mysql2": "3.11.3",
@@ -19,6 +20,7 @@
     "zod": "3.23.8"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/cors": "2.8.17",
     "@types/express": "5.0.0",
     "@types/node": "22.7.4",
