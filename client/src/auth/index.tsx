@@ -19,10 +19,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
   useEffect(() => {
     const cookie = document.cookie
 
-    if (cookie.includes('token')) {
+    if (cookie.includes('chat_app_token')) {
       axios.get('/profile') 
         .then(res => console.log(res))
-        .catch(err => console.log(err))
+        .catch(err => {
+          if (err.response.status === 401 && err.response.data.message === 'jwt expired') {
+            document.cookie = 'chat_app_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+          }
+        })
     }
     
   }, [isAuthenticated])

@@ -3,7 +3,7 @@ import { hashSync, compareSync } from 'bcryptjs';
 import { UserModel } from '../model/User.model';
 import { JWT_SECRET, SALT } from '../config';
 import { Request, Response } from 'express';
-import { sign, verify } from 'jsonwebtoken';
+import { sign, TokenExpiredError, verify } from 'jsonwebtoken';
 
 export const createUser = async (req: Request, res: Response) => {
   try {
@@ -47,10 +47,10 @@ export const getUserByEmail = async (req: Request, res: Response) => {
     
     const { id, names, lastnames } = user.dataValues;
 
-    sign({ id, names, lastnames, email }, JWT_SECRET, { expiresIn: '1h'}, (err: any, token?: string) => {
+    sign({ id, names, lastnames, email }, JWT_SECRET, { expiresIn: '2h'}, (err: any, token?: string) => {
       if (err) throw err;
       if (token) {
-        res.cookie('token', token, { sameSite: 'lax', secure: true }).status(201).json({ id, names, lastnames, email });
+        res.cookie('chat_app_token', token, { sameSite: 'lax', secure: true }).status(201).json({ id, names, lastnames, email });
         return;
       } else {
         res.status(500).json('Token generation failed');
@@ -65,19 +65,21 @@ export const getUserByEmail = async (req: Request, res: Response) => {
 }
 
 export const validateToken = async (req: Request, res: Response) => {
-  console.log(req.headers);
+  const token = req.headers.cookie?.split('=')[1];
   
+  if (!token) {
+    res.status(401).json({ message: 'No token provided' });
+    return;
+  }
 
-  // if (!token) {
-  //   res.status(401).json({ message: 'No token provided' });
-  //   return;
-  // }
-
-  // try {
-  //   const payload = verify(token, JWT_SECRET);
-  //   res.status(200).json(payload);
-  // } catch (error) {
-  //   console.log(error);
-  //   res.status(401).json({ message: 'Invalid token' });
-  // }
+  try {
+    const payload = verify(token, JWT_SECRET);
+    res.status(200).json(payload);
+  } catch (error) {
+    if (error instanceof TokenExpiredError) {
+      res.status(401).json({ message: error.message });
+    } else {
+      res.status(401).json({ message: 'Invalid token' });
+    }
+  }
 }
