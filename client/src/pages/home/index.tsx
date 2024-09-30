@@ -52,7 +52,7 @@ export default function Home() {
       <div className='w-3/12 p-2 rounded-l-md space-y-1'>
         {
           onlinePeopleWithoutMe.map((person) => (
-            <div key={person.id} className={`flex items-center gap-2 hover:bg-slate-600 py-4 rounded-md px-2 cursor-pointer ${selectedPerson?.id ? 'bg-slate-600': ''}`} onClick={() => handleSelect(person)} >
+            <div key={person.id} className={`flex items-center gap-2 hover:bg-slate-600 py-4 rounded-md px-2 cursor-pointer ${selectedPerson?.id === person.id ? 'bg-slate-600': ''}`} onClick={() => handleSelect(person)} >
               <figure className='relative'>
                 <div className='flex items-center justify-center h-12 w-12 rounded-full border font-bold text-yellow-300'>
                   <span>{person.names[0]}</span><span>{person.lastnames[0]}</span>
