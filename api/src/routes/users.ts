@@ -3,7 +3,7 @@ import { Router } from 'express';
 
 const userRoutes = Router();
 
-userRoutes.post('/user', createUser);
+userRoutes.post('/register', createUser);
 
 userRoutes.post('/login', getUserByEmail)
 
